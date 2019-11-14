@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class RoleController extends Controller
+// 角色控制器
+class RoleController extends BaseController
 {
     //
 }

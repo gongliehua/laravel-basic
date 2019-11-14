@@ -68,7 +68,7 @@ return [
     'numeric'              => ':attribute必须是数字',
     'present'              => ':attribute字段必须存在',
     'regex'                => ':attribute格式是无效的',
-    'required'             => ':attribute字段是必须的',
+    'required'             => ':attribute不能为空',
     'required_if'          => ':attribute字段是必须的当:other是:value',
     'required_unless'      => ':attribute字段是必须的, 除非:other是在:values中',
     'required_with'        => ':attribute字段是必须的当:values是存在的',

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class PermissionController extends Controller
+// 权限控制器
+class PermissionController extends BaseController
 {
     //
 }

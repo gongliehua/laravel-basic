@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class ConfigController extends Controller
+// 配置控制器
+class ConfigController extends BaseController
 {
     //
 }

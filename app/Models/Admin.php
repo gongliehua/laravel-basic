@@ -6,15 +6,49 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+// 管理员表
 class Admin extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
     protected $dates = ['deleted_at'];
 
+    protected $appends = ['sex_text', 'status_text'];
+
+    // 性别
+    const SEX_NO = 0;
+    const SEX_MAN = 1;
+    const SEX_GIRL = 2;
+    public $sexLabel = [self::SEX_NO=>'保密', self::SEX_MAN=>'男', self::SEX_GIRL=>'女'];
+    public function getSexTextAttribute()
+    {
+        return isset($this->sexLabel[$this->sex]) ? $this->sexLabel[$this->sex] : $this->sex;
+    }
+
+    // 状态
+    const STATUS_NORMAL = 1;
+    const STATUS_INVALID = 2;
+    public $statusLabel = [self::STATUS_NORMAL=>'正常', self::STATUS_INVALID=>'禁用'];
+    public function getStatusTextAttribute()
+    {
+        return isset($this->statusLabel[$this->status]) ? $this->statusLabel[$this->status] : $this->status;
+    }
+
     // 获取角色
     public function adminRole()
     {
         return $this->belongsToMany('App\Models\Role', 'admin_roles');
+    }
+
+    /**
+     * 登录验证用户名和密码
+     * @param $username string 用户名
+     * @param $password string 密码
+     * @return string|object 返回结果
+     */
+    public static function verifyUserNamePassword($username, $password)
+    {
+        $admin = self::where('username', $username)->where('password', sha1($password))->first();
+        return $admin ? $admin : '用户名或密码错误';
     }
 }
