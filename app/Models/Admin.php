@@ -51,4 +51,36 @@ class Admin extends Authenticatable
         $admin = self::where('username', $username)->where('password', sha1($password))->first();
         return $admin ? $admin : '用户名或密码错误';
     }
+
+    /**
+     * 修改信息
+     * @param $id int 用户id
+     * @param $data array 更新条件数组
+     * @return mixed int 返回修改行数
+     */
+    public static function updateInfo($where, $data)
+    {
+        $admin = self::where($where)->update($data);
+        return $admin;
+    }
+
+    /**
+     * 管理员搜索（通过sex性别,status状态,name用户名或昵称搜索）
+     * @param $request object Request对象
+     * @return mixed object 搜索结果
+     */
+    public static function search($request)
+    {
+        $map = [];
+        if (!in_array($request->input('sex'),[null,''])) {
+            $map[] = ['sex','=',$request->input('sex')];
+        }
+        if (!in_array($request->input('status'),[null,''])) {
+            $map[] = ['status','=',$request->input('status')];
+        }
+        $result = self::where($map)->when($request->input('name'), function($query) use($request) {
+            $query->where('username','like','%'.$request->input('name').'%')->orWhere('name','like','%'.$request->input('name').'%');
+        })->paginate();
+        return $result;
+    }
 }

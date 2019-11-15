@@ -41,15 +41,13 @@ trait Helper
         $result = '';
         foreach ($data as $key=>$value) {
             if (empty($value['child'])) {
-                $className = '';
-                $aTag  = '<a href="/'. $value['path'] .'" target="mainFrame"><i class="fa '. $value['icon'] .'"></i> <span>'. $value['title'] .'</span></a>';
+                $aTag  = '<a href="/'. $value['path'] .'"><i class="menu-icon fa '. $value['icon'] .'"></i><span class="menu-text">'. $value['title'] .'</span></a><b class="arrow"></b>';
             } else {
-                $className = 'treeview';
-                $aTag  = '<a href="'. $value['path'] .'"><i class="fa '. $value['icon'] .'"></i> <span>'. $value['title'] .'</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
+                $aTag  = '<a href="'. $value['path'] .'" class="dropdown-toggle"><i class="menu-icon fa '. $value['icon'] .'"></i><span class="menu-text">'. $value['title'] .'</span><b class="arrow fa fa-angle-down"></b></a><b class="arrow"></b>';
             }
-            $result .= '<li class="'. $className .'">'.$aTag;
+            $result .= '<li class="">'.$aTag;
             if (!empty($value['child'])) {
-                $result .= '<ul class="treeview-menu" style="display: none;">'. $this->toMenuHtml($value['child']) .'</ul>';
+                $result .= '<ul class="submenu">'. $this->toMenuHtml($value['child']) .'</ul>';
             }
             $result .= '</li>';
         }
