@@ -15,7 +15,7 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="javascript:void(0);">主页</a>
+                        主页
                     </li>
                     <li class="">用户管理</li>
                     <li class="active">权限列表</li>
@@ -24,8 +24,9 @@
 
             <div class="page-content">
                 <div class="page-header">
-                    <small>(共{{ $list->total() }}条数据)</small>
-
+                    <small>
+                        (共{{ $list->total() }}条数据)
+                    </small>
                     <div class="pull-right">
                         <a class="btn btn-sm btn-primary" title="刷新" onclick="location.reload()"><i class="fa fa-refresh"></i><span class="hidden-xs"> 刷新</span></a>
                         <a href="{{ url('admin/permission/create') }}" class="btn btn-sm btn-success" title="添加"><i class="fa fa-plus"></i><span class="hidden-xs"> 添加</span></a>
@@ -36,11 +37,11 @@
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
                         <div class="row">
-                            <div class="col-xs-12">
-                                <table id="simple-table" class="table  table-bordered table-hover">
+                            <div class="col-xs-12" style="overflow: auto;">
+                                <table id="simple-table" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th align="center">#</th>
+                                        <th>ID</th>
                                         <th>标题</th>
                                         <th>URL</th>
                                         <th>图标</th>
@@ -52,6 +53,7 @@
                                         <th>操作</th>
                                     </tr>
                                     </thead>
+
                                     <tbody>
                                     @if (count($list) > 0)
                                         <form action="{{ url('admin/permission/order') }}" method="post">
