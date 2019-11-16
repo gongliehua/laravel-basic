@@ -65,7 +65,7 @@
                                                     <td>{{ $value->icon }}</td>
                                                     <td>{{ $value->is_menu_text }}</td>
                                                     <td>{{ $value->status_text }}</td>
-                                                    <td><input type="text" name="sort[{{ $value->id }}]" value="{{ $value->order }}" style="width: 50px;text-align: center"></td>
+                                                    <td><input type="text" name="order[{{ $value->id }}]" value="{{ $value->order }}" style="width: 50px;text-align: center"></td>
                                                     <td>{{ $value->created_at }}</td>
                                                     <td>{{ $value->updated_at }}</td>
                                                     <td>

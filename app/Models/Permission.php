@@ -17,7 +17,7 @@ class Permission extends Model
     // 显示到菜单栏
     const IS_MENU_YES = 1;
     const IS_MENU_NO = 2;
-    public $is_menuLabel = [self::IS_MENU_YES=>'是', self::IS_MENU_NO=>'否'];
+    public $is_menuLabel = [self::IS_MENU_NO=>'否', self::IS_MENU_YES=>'是'];
     public function getIsMenuTextAttribute()
     {
         return isset($this->is_menuLabel[$this->is_menu]) ? $this->is_menuLabel[$this->is_menu] : $this->is_menu;
@@ -36,5 +36,16 @@ class Permission extends Model
     public function permission()
     {
         return $this->belongsTo('App\Models\Permission', 'parent_id', 'id');
+    }
+
+    /**
+     * 排序
+     * @param $data array 排序数组,key是id,value是值
+     */
+    public static function order($data)
+    {
+        foreach ($data as $key=>$value) {
+            self::where('id', (int)$key)->update(['order'=>(int)$value]);
+        }
     }
 }

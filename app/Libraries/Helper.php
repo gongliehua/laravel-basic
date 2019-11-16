@@ -1,10 +1,23 @@
 <?php
 
-namespace App\Traits;
+namespace App\Libraries;
 
-trait Helper
+/**
+ * 辅助类
+ * 不参与框架任何相关的东西,任何位置可调用
+ * Class Helper
+ * @package App\Libraries
+ */
+class Helper
 {
-    // 无限级数组排序
+    /**
+     * 无限级数组排序
+     * @param array $data 未排序过的二维数组
+     * @param int $parent_id 父ID
+     * @param int $level 等级
+     * @param bool $clear 是否清空静态区
+     * @return array 排序后的数组
+     */
     public function toTwoArray($data = [], $parent_id = 0, $level = 0, $clear = false)
     {
         static $result = [];
@@ -22,7 +35,12 @@ trait Helper
         return $result;
     }
 
-    // 无限级数组转换成多维数组
+    /**
+     * 无限级数组转换成多维数组
+     * @param array $data 无限级二维数组
+     * @param int $parent_id 父ID
+     * @return array 转换后的多维数组
+     */
     public function toMultiArray($data = [], $parent_id = 0)
     {
         $result = [];
@@ -35,7 +53,11 @@ trait Helper
         return $result;
     }
 
-    // 无限级多维数组转换成菜单字符串
+    /**
+     * 无限级多维数组转换成菜单字符串
+     * @param array $data 无限级多维数组
+     * @return string 返回菜单HTML
+     */
     public function toMenuHtml($data = [])
     {
         $result = '';
@@ -54,7 +76,12 @@ trait Helper
         return $result;
     }
 
-    // 无限级获取上级
+    /**
+     * 无限级获取上级
+     * @param array $data 无限级数组
+     * @param int $id 当前ID
+     * @return array 上级数组
+     */
     public function getParents($data = [], $id)
     {
         $result = [];
@@ -67,34 +94,12 @@ trait Helper
         return $result;
     }
 
-    // Laravel文件上传
-    public function fileUpload($file, $dir = '', $exceptExtends = [])
-    {
-        if ($file) {
-            $fileName = sha1(uniqid(null, true));
-            $fileExtends = $file->getClientOriginalExtension();
-            $uploadDir = ($dir != '') ? public_path($dir) : public_path();
-            if (!is_dir($uploadDir)) {
-                @mkdir($uploadDir, 0777);
-            }
-            if (!is_writeable($uploadDir)) {
-                return ['code'=>1, 'msg'=>'上传目录不可写', 'data'=>[]];
-            }
-            $url = trim(str_replace('\\','/',trim(trim($dir,'/'),'\\').'\\'.$fileName.'.'.$fileExtends),'/');
-            if (in_array($fileExtends, $exceptExtends)) {
-                return ['code'=>1, 'msg'=>'该文件类型禁止上传', 'data'=>[]];
-            }
-            if ($file->move($uploadDir, $fileName.'.'.$fileExtends)) {
-                return ['code'=>0, 'msg'=>'上传成功', 'data'=>$url];
-            } else {
-                return ['code'=>1, 'msg'=>'上传失败', 'data'=>[]];
-            }
-        } else {
-            return ['code'=>1, 'msg'=>'请上传文件', 'data'=>[]];
-        }
-    }
-
-    // 加密函数
+    /**
+     * 加密函数
+     * @param string $data 需要加密的字符串
+     * @param string $key 加密时用的KEY
+     * @return string 返回加密后的字符串
+     */
     public function setPassword($data, $key)
     {
         $key    = md5(md5(md5($key)));
@@ -116,7 +121,12 @@ trait Helper
         return base64_encode($str);
     }
 
-    // 解密函数
+    /**
+     * 解密函数,和加密函数配合使用
+     * @param string $data 被加密的字符串
+     * @param string $key 解密用的KEY
+     * @return string 返回解密后的字符串
+     */
     public function getPassword($data, $key)
     {
         $data   = base64_decode($data);
@@ -135,7 +145,12 @@ trait Helper
         return $str;
     }
 
-    // curl函数
+    /**
+     * curl函数,一般用于POST请求
+     * @param string $url URL地址
+     * @param array $data 请求数据
+     * @return mixed 请求结果
+     */
     public function curlPost($url, $data = []) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
