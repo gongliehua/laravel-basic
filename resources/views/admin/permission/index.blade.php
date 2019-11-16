@@ -3,6 +3,9 @@
 @section('title', '后台管理')
 
 @section('head')
+    <style>
+        .laravel-page .pagination {margin:0;}
+    </style>
 @endsection
 
 @section('content')
@@ -41,7 +44,7 @@
                                         <th>标题</th>
                                         <th>URL</th>
                                         <th>图标</th>
-                                        <th>显示到菜单栏</th>
+                                        <th>菜单栏</th>
                                         <th>状态</th>
                                         <th>排序</th>
                                         <th>创建时间</th>
@@ -60,7 +63,7 @@
                                                     <td>{{ $value->icon }}</td>
                                                     <td>{{ $value->is_menu_text }}</td>
                                                     <td>{{ $value->status_text }}</td>
-                                                    <td><input type="text" name="sort[{{ $value->id }}]" value="{{ $value->sort }}" style="width: 50px;text-align: center"></td>
+                                                    <td><input type="text" name="sort[{{ $value->id }}]" value="{{ $value->order }}" style="width: 50px;text-align: center"></td>
                                                     <td>{{ $value->created_at }}</td>
                                                     <td>{{ $value->updated_at }}</td>
                                                     <td>
@@ -83,6 +86,9 @@
                                     </tbody>
                                 </table>
                             </div><!-- /.span -->
+                            <div class="col-xs-12 laravel-page">
+                                {{ $list->render() }}
+                            </div>
                         </div><!-- /.row -->
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
