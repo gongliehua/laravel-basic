@@ -17,7 +17,7 @@ class Permission extends Model
     // 显示到菜单栏
     const IS_MENU_YES = 1;
     const IS_MENU_NO = 2;
-    public $is_menuLabel = [self::IS_MENU_YES=>'是', self::IS_MENU_NO=>'不是'];
+    public $is_menuLabel = [self::IS_MENU_YES=>'是', self::IS_MENU_NO=>'否'];
     public function getIsMenuTextAttribute()
     {
         return isset($this->is_menuLabel[$this->is_menu]) ? $this->is_menuLabel[$this->is_menu] : $this->is_menu;

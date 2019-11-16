@@ -12,7 +12,7 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="javascript:void(0);">主页</a>
+                        主页
                     </li>
                     <li class="active">仪表盘</li>
                 </ul><!-- /.breadcrumb -->

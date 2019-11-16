@@ -98,8 +98,8 @@
                             <img class="nav-user-photo" src="{{ asset('assets/images/avatars/user.jpg') }}" alt="Jason's Photo" />
                         @endif
                         <span class="user-info">
-                            <small>Welcome,</small>
-                            {{ \Illuminate\Support\Facades\Auth::guard('admin')->user()->username }}
+                            <small>欢迎,</small>
+                            {{ \Illuminate\Support\Facades\Auth::guard('admin')->user()->name }}
                         </span>
 
                         <i class="ace-icon fa fa-caret-down"></i>

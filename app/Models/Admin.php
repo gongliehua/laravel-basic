@@ -19,7 +19,7 @@ class Admin extends Authenticatable
     const SEX_NO = 0;
     const SEX_MAN = 1;
     const SEX_GIRL = 2;
-    public $sexLabel = [self::SEX_NO=>'保密', self::SEX_MAN=>'男', self::SEX_GIRL=>'女'];
+    public $sexLabel = [self::SEX_NO=>'未知', self::SEX_MAN=>'男', self::SEX_GIRL=>'女'];
     public function getSexTextAttribute()
     {
         return isset($this->sexLabel[$this->sex]) ? $this->sexLabel[$this->sex] : $this->sex;
