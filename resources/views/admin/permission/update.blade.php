@@ -24,7 +24,7 @@
                     <h1>
                         <small>
                             <i class="ace-icon fa fa-angle-double-right"></i>
-                            权限添加
+                            权限修改
                         </small>
                     </h1>
                 </div><!-- /.page-header -->
@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right"> *标题 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="title" value="{{ old('title') ? old('title') : '' }}" placeholder="标题" class="col-xs-10 col-sm-5" required />
+                                    <input type="text" name="title" value="{{ old('title') ? old('title') : $permission->title }}" placeholder="标题" class="col-xs-10 col-sm-5" required />
                                 </div>
                             </div>
 
@@ -45,7 +45,7 @@
                                 <label class="col-sm-3 control-label no-padding-right"> 图标 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" name="icon" value="{{ old('icon') ? old('icon') : 'fa-caret-right' }}" placeholder="图标" class="col-xs-10 col-sm-5" />
+                                    <input type="text" name="icon" value="{{ old('icon') ? old('icon') : $permission->icon }}" placeholder="图标" class="col-xs-10 col-sm-5" />
                                 </div>
                             </div>
 
@@ -55,7 +55,7 @@
                                 <label class="col-sm-3 control-label no-padding-right"> URL </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" name="path" value="{{ old('path') ? old('path') : '' }}" placeholder="URL" class="col-xs-10 col-sm-5" />
+                                    <input type="text" name="path" value="{{ old('path') ? old('path') : $permission->path }}" placeholder="URL" class="col-xs-10 col-sm-5" />
                                 </div>
                             </div>
 
@@ -65,7 +65,11 @@
                                 <div class="col-sm-9">
                                     <select name="is_menu" class="col-xs-10 col-sm-5">
                                         @foreach((new \App\Models\Permission())->is_menuLabel as $key=>$value)
-                                            <option value="{{ $key }}" @if($key == old('is_menu')) selected @endif>{{ $value }}</option>
+                                            @if (is_null(old('is_menu')))
+                                                <option value="{{ $key }}" @if ($permission->is_menu == $key) selected @endif>{{ $value }}</option>
+                                            @else
+                                                <option value="{{ $key }}" @if ($key == old('is_menu')) selected @endif>{{ $value }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -77,7 +81,11 @@
                                 <div class="col-sm-9">
                                     <select name="status" class="col-xs-10 col-sm-5">
                                         @foreach((new \App\Models\Permission())->statusLabel as $key=>$value)
-                                            <option value="{{ $key }}" @if($key == old('status')) selected @endif>{{ $value }}</option>
+                                            @if (is_null(old('status')))
+                                                <option value="{{ $key }}" @if ($permission->status == $key) selected @endif>{{ $value }}</option>
+                                            @else
+                                                <option value="{{ $key }}" @if ($key == old('status')) selected @endif>{{ $value }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -87,7 +95,7 @@
                                 <label class="col-sm-3 control-label no-padding-right"> *排序 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="number" name="order" value="{{ old('order') ? old('order') : 100 }}" placeholder="排序" class="col-xs-10 col-sm-5" />
+                                    <input type="number" name="order" value="{{ old('order') ? old('order') : $permission->order }}" placeholder="排序" class="col-xs-10 col-sm-5" />
                                 </div>
                             </div>
 
@@ -95,7 +103,7 @@
                                 <label class="col-sm-3 control-label no-padding-right"> 备注 </label>
 
                                 <div class="col-sm-9">
-                                    <textarea name="remark" rows="3" class="col-xs-10 col-sm-5" placeholder="备注">{{ old('remark') ? old('remark') : '' }}</textarea>
+                                    <textarea name="remark" rows="3" class="col-xs-10 col-sm-5" placeholder="备注">{!! old('remark') ? old('remark') : $permission->remark !!}</textarea>
                                 </div>
                             </div>
 
@@ -106,7 +114,11 @@
                                         <option value="0">｜顶级权限</option>
                                         @if (count($permissions))
                                             @foreach ($permissions as $key=>$value)
-                                                <option value="{{ $value['id'] }}"> @if ($value['parent_id'] == 0) ｜ @endif {{ str_repeat('－',$value['level']*4) }} {{ $value['title'] }}</option>
+                                                @if (is_null(old('status')))
+                                                    <option value="{{ $value['id'] }}" @if (in_array($value['id'], $notInIds)) disabled @endif @if ($value['id'] == $permission->parent_id) selected @endif>@if ($value['parent_id'] == 0) ｜ @endif {{ str_repeat('－',$value['level']*4) }} {{ $value['title'] }}</option>
+                                                @else
+                                                    <option value="{{ $value['id'] }}" @if (in_array($value['id'], $notInIds)) disabled @endif @if ($value['id'] == old('parent_id')) selected @endif>@if ($value['parent_id'] == 0) ｜ @endif {{ str_repeat('－',$value['level']*4) }} {{ $value['title'] }}</option>
+                                                @endif
                                             @endforeach
                                         @endif
                                     </select>

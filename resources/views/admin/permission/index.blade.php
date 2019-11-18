@@ -18,7 +18,7 @@
                         主页
                     </li>
                     <li class="">用户管理</li>
-                    <li class="active">权限列表</li>
+                    <li class="active">权限管理</li>
                 </ul><!-- /.breadcrumb -->
             </div>
 

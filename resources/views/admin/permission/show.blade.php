@@ -24,7 +24,7 @@
                     <h1>
                         <small>
                             <i class="ace-icon fa fa-angle-double-right"></i>
-                            权限添加
+                            权限查看
                         </small>
                     </h1>
                 </div><!-- /.page-header -->
@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right"> *标题 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="title" value="{{ old('title') ? old('title') : '' }}" placeholder="标题" class="col-xs-10 col-sm-5" required />
+                                    <input type="text" name="title" value="{{ $permission->title }}" placeholder="标题" class="col-xs-10 col-sm-5" required />
                                 </div>
                             </div>
 
@@ -45,7 +45,7 @@
                                 <label class="col-sm-3 control-label no-padding-right"> 图标 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" name="icon" value="{{ old('icon') ? old('icon') : 'fa-caret-right' }}" placeholder="图标" class="col-xs-10 col-sm-5" />
+                                    <input type="text" name="icon" value="{{ $permission->icon }}" placeholder="图标" class="col-xs-10 col-sm-5" />
                                 </div>
                             </div>
 
@@ -55,7 +55,7 @@
                                 <label class="col-sm-3 control-label no-padding-right"> URL </label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" name="path" value="{{ old('path') ? old('path') : '' }}" placeholder="URL" class="col-xs-10 col-sm-5" />
+                                    <input type="text" name="path" value="{{ $permission->path }}" placeholder="URL" class="col-xs-10 col-sm-5" />
                                 </div>
                             </div>
 
@@ -63,11 +63,7 @@
                                 <label class="col-sm-3 control-label no-padding-right"> 菜单栏 </label>
 
                                 <div class="col-sm-9">
-                                    <select name="is_menu" class="col-xs-10 col-sm-5">
-                                        @foreach((new \App\Models\Permission())->is_menuLabel as $key=>$value)
-                                            <option value="{{ $key }}" @if($key == old('is_menu')) selected @endif>{{ $value }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="is_menu" value="{{ $permission->is_menu_text }}" placeholder="" class="col-xs-10 col-sm-5" />
                                 </div>
                             </div>
 
@@ -75,11 +71,7 @@
                                 <label class="col-sm-3 control-label no-padding-right"> 状态 </label>
 
                                 <div class="col-sm-9">
-                                    <select name="status" class="col-xs-10 col-sm-5">
-                                        @foreach((new \App\Models\Permission())->statusLabel as $key=>$value)
-                                            <option value="{{ $key }}" @if($key == old('status')) selected @endif>{{ $value }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="status" value="{{ $permission->status_text }}" placeholder="" class="col-xs-10 col-sm-5" />
                                 </div>
                             </div>
 
@@ -87,7 +79,7 @@
                                 <label class="col-sm-3 control-label no-padding-right"> *排序 </label>
 
                                 <div class="col-sm-9">
-                                    <input type="number" name="order" value="{{ old('order') ? old('order') : 100 }}" placeholder="排序" class="col-xs-10 col-sm-5" />
+                                    <input type="number" name="order" value="{{ $permission->order }}" placeholder="排序" class="col-xs-10 col-sm-5" />
                                 </div>
                             </div>
 
@@ -95,25 +87,22 @@
                                 <label class="col-sm-3 control-label no-padding-right"> 备注 </label>
 
                                 <div class="col-sm-9">
-                                    <textarea name="remark" rows="3" class="col-xs-10 col-sm-5" placeholder="备注">{{ old('remark') ? old('remark') : '' }}</textarea>
+                                    <textarea name="remark" rows="3" class="col-xs-10 col-sm-5" placeholder="备注">{!! $permission->remark !!}</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">上级权限</label>
                                 <div class="col-sm-9">
-                                    <select name="parent_id" class="col-xs-10 col-sm-5">
-                                        <option value="0">｜顶级权限</option>
-                                        @if (count($permissions))
-                                            @foreach ($permissions as $key=>$value)
-                                                <option value="{{ $value['id'] }}"> @if ($value['parent_id'] == 0) ｜ @endif {{ str_repeat('－',$value['level']*4) }} {{ $value['title'] }}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
+                                    @if ($permission->parent_id == 0)
+                                        <input type="text" name="parent_id" value="顶级权限" placeholder="" class="col-xs-10 col-sm-5" />
+                                    @else
+                                        <input type="text" name="parent_id" value="{{ @$permission->permission->title }}" placeholder="" class="col-xs-10 col-sm-5" />
+                                    @endif
                                 </div>
                             </div>
 
-                            <div class="clearfix form-actions">
+                            <div class="clearfix form-actions" style="display: none;">
                                 <div class="col-md-offset-3 col-md-9">
                                     <input type="submit" class="btn btn-info" value="提交">
                                     &nbsp;&nbsp;&nbsp;
@@ -131,4 +120,10 @@
 @endsection
 
 @section('bottom')
+    <script>
+        $(function () {
+            // 禁止可输入元素
+            $('input,textarea,select').attr('readonly','readonly');
+        })
+    </script>
 @endsection

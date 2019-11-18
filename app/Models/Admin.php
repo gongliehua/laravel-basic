@@ -53,12 +53,12 @@ class Admin extends Authenticatable
     }
 
     /**
-     * 修改信息
-     * @param $id int 用户id
+     * 修改
+     * @param $where array 条件数组
      * @param $data array 更新条件数组
      * @return mixed int 返回修改行数
      */
-    public static function updateInfo($where, $data)
+    public static function edit($where, $data)
     {
         $admin = self::where($where)->update($data);
         return $admin;

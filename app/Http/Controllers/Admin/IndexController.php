@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Libraries\Tools;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +55,7 @@ class IndexController extends BaseController
             $data['sex'] = $request->input('sex');
             // 判断头像
             if ($avatar = $request->file('avatar')) {
-                $avatar = $this->fileUpload($avatar,'uploads/avatar',['php']);
+                $avatar = Tools::getInstance()->fileUpload($avatar,'uploads/avatar',['php']);
                 if ($avatar['code'] !== 0) {
                     return back()->withInput()->withErrors(['error'=>$avatar['msg']]);
                 }
@@ -66,9 +67,9 @@ class IndexController extends BaseController
             }
 
             // 修改信息
-            $admin = Admin::updateInfo([['id','=',Auth::guard('admin')->id()]], $data);
+            $admin = Admin::edit([['id','=',Auth::guard('admin')->id()]], $data);
             if ($admin) {
-                return back()->withErrors(['success'=>'修改成功']);
+                return redirect('admin/index')->withErrors(['success'=>'修改成功']);
             } else {
                 return back()->withInput()->withErrors(['error'=>'修改失败']);
             }
