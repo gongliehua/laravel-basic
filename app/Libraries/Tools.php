@@ -203,7 +203,7 @@ class Tools
      * @param array $exceptExtends 排除文件扩展名
      * @return array 返回出来结果
      */
-    public static function fileUpload($file, $dir = '', $exceptExtends = [])
+    public function fileUpload($file, $dir = '', $exceptExtends = [])
     {
         if ($file) {
             $fileName = sha1(uniqid(null, true));
@@ -238,14 +238,14 @@ class Tools
         // 默认管理员不受限制
         if (Auth::guard('admin')->id() == 1) {
             // 获取权限(显示到到导航栏的,状态为正常的)
-            $permissions = Permission::where('is_menu', Permission::IS_MENU_YES)->where('status', Permission::STATUS_NORMAL)->get();
+            $permissions = Permission::where('is_menu', Permission::IS_MENU_YES)->where('status', Permission::STATUS_NORMAL)->orderBy('order','asc')->get();
         } else {
             // 获取当前用户角色
             $roleId = AdminRole::where('admin_id', Auth::guard('admin')->id())->value('role_id');
 
             // 获取角色拥有的权限(显示到到导航栏的,状态为正常的)
             $permissionIds = RolePermission::where('role_id', $roleId)->pluck('permission_id');
-            $permissions = Permission::where('is_menu', Permission::IS_MENU_YES)->where('status', Permission::STATUS_NORMAL)->whereIn('id', $permissionIds)->get();
+            $permissions = Permission::where('is_menu', Permission::IS_MENU_YES)->where('status', Permission::STATUS_NORMAL)->whereIn('id', $permissionIds)->orderBy('order','asc')->get();
         }
         // 转数组
         $permissions = json_decode(json_encode($permissions), true);

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 // 管理员表
 class Admin extends Authenticatable
@@ -34,10 +35,16 @@ class Admin extends Authenticatable
         return isset($this->statusLabel[$this->status]) ? $this->statusLabel[$this->status] : $this->status;
     }
 
-    // 获取角色
+    // 获取角色(暂时不使用多对多)
     public function adminRole()
     {
         return $this->belongsToMany('App\Models\Role', 'admin_roles');
+    }
+
+    // 获取角色
+    public function adminRoleOne()
+    {
+        return $this->hasOne('App\Models\AdminRole');
     }
 
     /**
@@ -53,7 +60,7 @@ class Admin extends Authenticatable
     }
 
     /**
-     * 修改
+     * 修改信息
      * @param $where array 条件数组
      * @param $data array 更新条件数组
      * @return mixed int 返回修改行数
@@ -72,15 +79,121 @@ class Admin extends Authenticatable
     public static function search($request)
     {
         $map = [];
+        // 性别
         if (!in_array($request->input('sex'),[null,''])) {
             $map[] = ['sex','=',$request->input('sex')];
         }
+        // 状态
         if (!in_array($request->input('status'),[null,''])) {
             $map[] = ['status','=',$request->input('status')];
         }
-        $result = self::where($map)->when($request->input('name'), function($query) use($request) {
+        $result = self::with(['adminRoleOne'=>function($query){
+            $query->with(['role']);
+        }])->where($map)->when($request->input('name'), function($query) use($request) {
             $query->where('username','like','%'.$request->input('name').'%')->orWhere('name','like','%'.$request->input('name').'%');
         })->paginate();
         return $result;
+    }
+
+    /**
+     * 添加
+     * @param $data array 数据数组
+     * @return bool true成功,否则失败
+     */
+    public static function add($data)
+    {
+        try {
+            DB::beginTransaction();
+
+            // 管理员入库
+            $admin = new self();
+            $admin->username = $data['username'];
+            $admin->password = $data['password'];
+            $admin->name = $data['name'];
+            $admin->sex = $data['sex'];
+            $admin->status = $data['status'];
+            $admin->avatar = @$data['avatar'];
+            if (!$admin->save()) {
+                throw new \Exception('添加失败');
+            }
+
+            // 角色入库
+            $adminRole = new AdminRole();
+            $adminRole->admin_id = $admin->id;
+            $adminRole->role_id = $data['role_id'];
+            if (!$adminRole->save()) {
+                throw new \Exception('添加失败');
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 更新单条管理员信息
+     * @param $id int 管理员id
+     * @param $data array 需要更新数据的数组
+     * @param $role_id int 角色ID
+     * @return bool true成功，否则失败
+     */
+    public static function editInfo($id, $data, $role_id)
+    {
+        try {
+            DB::beginTransaction();
+
+            // 更新信息
+            $admin = self::where('id',$id)->update($data);
+            if (!$admin) {
+                throw new \Exception('修改失败');
+            }
+
+            // 删除原角色
+            AdminRole::where('admin_id',$id)->delete();
+
+            // 添加角色关系
+            $adminRole = new AdminRole();
+            $adminRole->admin_id = $id;
+            $adminRole->role_id = $role_id;
+            if (!$adminRole->save()) {
+                throw new \Exception('修改失败');
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 删除管理员
+     * @param $id int 管理员ID
+     * @return bool true表示成功，否则失败
+     */
+    public static function del($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            // 删除
+            $admin = self::destroy($id);
+            if (!$admin) {
+                throw new \Exception('删除失败');
+            }
+
+            // 删除原角色
+            AdminRole::where('admin_id',$id)->delete();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
+        }
+        return true;
     }
 }

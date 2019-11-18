@@ -30,7 +30,7 @@ class IndexController extends BaseController
                         // 判断长度及内容
                         if (strlen($value)) {
                             $validPassword = Validator::make($request->all(), [
-                                'password'=>'alpha_dash|digits_between:6,18'
+                                'password'=>'alpha_dash|string|between:6,18'
                             ], [], [
                                 'password'=>'密码'
                             ]);

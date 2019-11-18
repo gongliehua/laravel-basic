@@ -12,4 +12,10 @@ class AdminRole extends Model
     {
         return $this->belongsTo('App\Models\Admin');
     }
+
+    // 获取角色
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role');
+    }
 }
