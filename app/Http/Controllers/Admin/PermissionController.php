@@ -36,7 +36,7 @@ class PermissionController extends BaseController
         // POST请求
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
-                'title'=>'required|digits_between:1,255',
+                'title'=>'required|string|between:1,255',
                 'is_menu'=>'required|integer',
                 'status'=>'required|integer',
                 'parent_id'=>[
