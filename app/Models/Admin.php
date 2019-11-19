@@ -56,7 +56,14 @@ class Admin extends Authenticatable
     public static function verifyUserNamePassword($username, $password)
     {
         $admin = self::where('username', $username)->where('password', sha1($password))->first();
-        return $admin ? $admin : '用户名或密码错误';
+        if ($admin) {
+            if ($admin->status != self::STATUS_NORMAL) {
+                return '账户已被禁用';
+            }
+            return $admin;
+        } else {
+            return '用户名或密码错误';
+        }
     }
 
     /**

@@ -123,7 +123,7 @@ class AdminController extends BaseController
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
                 'id'=>'required',
-                'username'=>'required|string|alpha_dash|between:3,32|unique:admins,username,'.$request->input('id').',id',
+                //'username'=>'required|string|alpha_dash|between:3,32|unique:admins,username,'.$request->input('id').',id',
                 'password'=>[
                     'confirmed',
                     function ($attribute,$value,$fail) use($request) {
@@ -165,7 +165,7 @@ class AdminController extends BaseController
             }
 
             // 数据组装
-            $data = $request->only(['username','name','sex','status']);
+            $data = $request->only(['name','sex','status']);
             // 密码处理
             if (strlen($request->input('password'))) {
                 $data['password'] = sha1($request->input('password'));

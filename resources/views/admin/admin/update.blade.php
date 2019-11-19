@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right"> *用户名 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="username" value="{{ old('username') ? old('username') : $admin->username }}" placeholder="用户名" class="col-xs-10 col-sm-5" required />
+                                    <input type="text" name="username" value="{{ old('username') ? old('username') : $admin->username }}" placeholder="用户名" class="col-xs-10 col-sm-5" readonly="readonly" />
                                 </div>
                             </div>
 

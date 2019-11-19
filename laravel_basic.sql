@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 18/11/2019 18:17:33
+ Date: 19/11/2019 17:38:31
 */
 
 SET NAMES utf8mb4;
@@ -28,13 +28,12 @@ CREATE TABLE `admin_roles`  (
   `created_at` timestamp(0) NULL DEFAULT NULL COMMENT '添加时间',
   `updated_at` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin_roles
 -- ----------------------------
-INSERT INTO `admin_roles` VALUES (2, 6, 1, '2019-11-18 16:47:50', '2019-11-18 16:47:50');
-INSERT INTO `admin_roles` VALUES (6, 1, 4, '2019-11-18 18:13:00', '2019-11-18 18:13:00');
+INSERT INTO `admin_roles` VALUES (1, 1, 1, '2019-11-19 17:35:40', '2019-11-19 17:35:42');
 
 -- ----------------------------
 -- Table structure for admins
@@ -54,14 +53,12 @@ CREATE TABLE `admins`  (
   `deleted_at` timestamp(0) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admins
 -- ----------------------------
-INSERT INTO `admins` VALUES (1, 'admin', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'admin', 1, NULL, 1, '9vGqYQijJN7ljdrHp325T0YTP8FPED910XWqckISLdXJ6oIkhUNZfaJGczME', NULL, '2019-11-18 18:13:00', NULL);
-INSERT INTO `admins` VALUES (6, 'dfas', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'dsadfa', 0, NULL, 1, NULL, '2019-11-18 16:47:50', '2019-11-18 16:47:50', NULL);
-INSERT INTO `admins` VALUES (7, '111', '7c4a8d09ca3762af61e59520943dc26494f8941b', '111', 0, NULL, 1, NULL, '2019-11-18 16:48:23', '2019-11-18 18:16:12', '2019-11-18 18:16:12');
+INSERT INTO `admins` VALUES (1, 'sysop', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'sysop', 1, NULL, 1, NULL, '2019-11-19 17:36:18', '2019-11-19 17:36:21', NULL);
 
 -- ----------------------------
 -- Table structure for configs
@@ -69,7 +66,7 @@ INSERT INTO `admins` VALUES (7, '111', '7c4a8d09ca3762af61e59520943dc26494f8941b
 DROP TABLE IF EXISTS `configs`;
 CREATE TABLE `configs`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '名称',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
   `variable` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '变量名',
   `type` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '类型:1=单行文本,2=多行文本,3=单选按钮,4=复选框,5=下拉框',
   `item` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '可选项',
@@ -101,7 +98,7 @@ CREATE TABLE `permissions`  (
   `deleted_at` timestamp(0) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `path`(`path`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permissions
@@ -123,6 +120,14 @@ INSERT INTO `permissions` VALUES (14, 13, 'fa-caret-right', '管理员添加', '
 INSERT INTO `permissions` VALUES (15, 13, 'fa-caret-right', '管理员查看', 'admin/admin/show', 2, 1, 100, NULL, '2019-11-18 15:16:41', '2019-11-18 17:00:49', NULL);
 INSERT INTO `permissions` VALUES (16, 13, 'fa-caret-right', '管理员修改', 'admin/admin/update', 2, 1, 100, NULL, '2019-11-18 15:17:01', '2019-11-18 17:00:49', NULL);
 INSERT INTO `permissions` VALUES (17, 13, 'fa-caret-right', '管理员删除', 'admin/admin/delete', 2, 1, 100, NULL, '2019-11-18 15:17:20', '2019-11-18 17:00:49', NULL);
+INSERT INTO `permissions` VALUES (18, 0, 'fa-cogs', '系统管理', NULL, 1, 1, 100, NULL, '2019-11-19 09:17:08', '2019-11-19 09:17:08', NULL);
+INSERT INTO `permissions` VALUES (19, 18, 'fa-caret-right', '配置管理', 'admin/config/index', 1, 1, 100, NULL, '2019-11-19 09:17:29', '2019-11-19 09:17:29', NULL);
+INSERT INTO `permissions` VALUES (20, 19, 'fa-caret-right', '配置添加', 'admin/config/create', 2, 1, 100, NULL, '2019-11-19 09:17:58', '2019-11-19 09:17:58', NULL);
+INSERT INTO `permissions` VALUES (21, 19, 'fa-caret-right', '配置查看', 'admin/config/show', 2, 1, 100, NULL, '2019-11-19 09:18:11', '2019-11-19 09:18:11', NULL);
+INSERT INTO `permissions` VALUES (22, 19, 'fa-caret-right', '配置修改', 'admin/config/update', 2, 1, 100, NULL, '2019-11-19 09:18:38', '2019-11-19 09:18:38', NULL);
+INSERT INTO `permissions` VALUES (23, 19, 'fa-caret-right', '配置删除', 'admin/config/delete', 2, 1, 100, NULL, '2019-11-19 09:18:52', '2019-11-19 09:18:52', NULL);
+INSERT INTO `permissions` VALUES (24, 19, 'fa-caret-right', '配置排序', 'admin/config/order', 2, 1, 100, NULL, '2019-11-19 09:19:09', '2019-11-19 09:19:09', NULL);
+INSERT INTO `permissions` VALUES (25, 18, 'fa-caret-right', '配置设定', 'admin/config/setting', 1, 1, 100, NULL, '2019-11-19 09:19:32', '2019-11-19 09:19:32', NULL);
 
 -- ----------------------------
 -- Table structure for role_permissions
@@ -135,12 +140,7 @@ CREATE TABLE `role_permissions`  (
   `created_at` timestamp(0) NULL DEFAULT NULL COMMENT '添加时间',
   `updated_at` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of role_permissions
--- ----------------------------
-INSERT INTO `role_permissions` VALUES (1, 1, 12, NULL, NULL);
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for roles
@@ -155,16 +155,11 @@ CREATE TABLE `roles`  (
   `updated_at` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
   `deleted_at` timestamp(0) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of roles
 -- ----------------------------
-INSERT INTO `roles` VALUES (1, 'aa', 1, NULL, '2019-11-18 13:39:53', '2019-11-18 13:39:56', NULL);
-INSERT INTO `roles` VALUES (2, '角色1', 1, NULL, '2019-11-18 14:23:44', '2019-11-18 14:23:44', NULL);
-INSERT INTO `roles` VALUES (3, '角色2', 2, '1', '2019-11-18 14:25:30', '2019-11-18 14:25:30', NULL);
-INSERT INTO `roles` VALUES (4, '超级管理员', 1, NULL, '2019-11-18 14:25:44', '2019-11-18 15:25:24', NULL);
-INSERT INTO `roles` VALUES (5, '角色4', 1, '1', '2019-11-18 14:26:03', '2019-11-18 15:11:53', '2019-11-18 15:11:53');
-INSERT INTO `roles` VALUES (6, 'dsa12', 2, '12', '2019-11-18 14:26:51', '2019-11-18 15:11:42', '2019-11-18 15:11:42');
+INSERT INTO `roles` VALUES (1, '默认角色', 1, NULL, '2019-11-19 17:37:43', '2019-11-19 17:37:46', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

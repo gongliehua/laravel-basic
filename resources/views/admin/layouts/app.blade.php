@@ -207,6 +207,7 @@
 <script src="{{ asset('assets/plugins/toastr-2.1.1/build/toastr.min.js') }}"></script>
 
 <script type="text/javascript">
+    // 显示信息
     toastr.options = {closeButton: true,progressBar: true};
     @if ($errors->has('success'))
         toastr.success('{{ $errors->first('success') }}');
@@ -215,7 +216,17 @@
         toastr.error('{{ $errors->first('error') }}');
     @endif
 
+    // 后台模板自带的,视乎是做兼容处理
     if('ontouchstart' in document.documentElement) document.write("<script src='{{ asset('assets/js/jquery.mobile.custom.min.js') }}'>"+"<"+"/script>");
+
+    // 左侧导航栏选中效果,暂时只支持二级导航
+    var pathname = location.pathname;
+    if (pathname != '/') {
+        $(function(){
+            $("a[href='"+pathname+"']").parent().addClass('active');
+            $("a[href='"+pathname+"']").parent().parents('li').addClass('active open');
+        })
+    }
 </script>
 
 @yield('bottom')

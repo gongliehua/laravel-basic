@@ -81,6 +81,11 @@ class Permission extends Model
         return $permission;
     }
 
+    /**
+     * 删除数据
+     * @param $id
+     * @return bool|string
+     */
     public static function del($id)
     {
         try {
