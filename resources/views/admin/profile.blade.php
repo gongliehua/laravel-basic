@@ -12,9 +12,9 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        主页
+                        <a href="{{ url('admin/index') }}">主页</a>
                     </li>
-                    <li class="active">个人信息</li>
+                    <li class="active"><a href="{{ url('admin/profile') }}">个人信息</a></li>
                 </ul><!-- /.breadcrumb -->
             </div>
 

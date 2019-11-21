@@ -12,10 +12,10 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        主页
+                        <a href="{{ url('admin/index') }}">主页</a>
                     </li>
-                    <li class="">内容管理</li>
-                    <li class="active">标签</li>
+                    <li class=""><a href="javascript:void(0)">内容管理</a></li>
+                    <li class="active"><a href="{{ url('admin/tag/index') }}">标签管理</a></li>
                 </ul><!-- /.breadcrumb -->
             </div>
 

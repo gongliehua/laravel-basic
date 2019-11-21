@@ -12,9 +12,8 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        主页
+                        <a href="{{ url('admin/index') }}">主页</a>
                     </li>
-                    <li class="active">仪表盘</li>
                 </ul><!-- /.breadcrumb -->
             </div>
 
