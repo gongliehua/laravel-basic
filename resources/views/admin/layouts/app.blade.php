@@ -216,17 +216,15 @@
         toastr.error('{{ $errors->first('error') }}');
     @endif
 
-    // 后台模板自带的,视乎是做兼容处理
+    // 后台模板自带的,似乎是做兼容处理
     if('ontouchstart' in document.documentElement) document.write("<script src='{{ asset('assets/js/jquery.mobile.custom.min.js') }}'>"+"<"+"/script>");
 
-    // 左侧导航栏选中效果,暂时只支持二级导航
-    var pathname = location.pathname;
-    if (pathname != '/') {
-        $(function(){
-            $("a[href='"+pathname+"']").parent().addClass('active');
-            $("a[href='"+pathname+"']").parent().parents('li').addClass('active open');
-        })
-    }
+    // 展开导航栏
+    $(function(){
+        var pathname = location.pathname;
+        $(".nav-list a[href='"+pathname+"']").parent().addClass('active');
+        $(".nav-list a[href='"+pathname+"']").parent().parents('li').addClass('active open');
+    });
 </script>
 
 @yield('bottom')
