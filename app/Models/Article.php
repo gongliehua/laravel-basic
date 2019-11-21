@@ -24,6 +24,12 @@ class Article extends Model
         return isset($this->statusLabel[$this->status]) ? $this->statusLabel[$this->status] : $this->status;
     }
 
+    // 获取标签
+    public function tag()
+    {
+        return $this->belongsToMany('App\Models\Tag', 'article_tags');
+    }
+
     /**
      * 后台 文章列表
      * 搜索字段：title string 非必传 标题
@@ -40,7 +46,7 @@ class Article extends Model
         if ($request->input('status')) {
             $map[] = ['status','=',$request->input('status')];
         }
-        $list = self::where($map)->paginate();
+        $list = self::where($map)->orderBy('id','desc')->paginate();
         return $list;
     }
 

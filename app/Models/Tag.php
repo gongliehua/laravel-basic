@@ -26,7 +26,7 @@ class Tag extends Model
      */
     public static function search($request)
     {
-        $list = self::paginate();
+        $list = self::orderBy('order','asc')->paginate();
         return $list;
     }
 
@@ -34,7 +34,7 @@ class Tag extends Model
     /**
      * 添加
      * @param $data array 数据数组
-     * @return bool true成功，否则失败
+     * @return bool true成功，false失败
      */
     public static function add($data)
     {
@@ -51,7 +51,7 @@ class Tag extends Model
      * 更新
      * @param $id int 标签ID
      * @param $data array 更新数据
-     * @return bool true表示成功,否失败
+     * @return bool true表示成功,false失败
      */
     public static function edit($id, $data)
     {
@@ -65,7 +65,7 @@ class Tag extends Model
     /**
      * 删除标签
      * @param $id int 标签ID
-     * @return bool|string true表示删除成功，否则删除失败
+     * @return bool|string true表示删除成功，字符串表示删除失败
      */
     public static function del($id)
     {
@@ -81,5 +81,16 @@ class Tag extends Model
             return '删除失败';
         }
         return true;
+    }
+
+    /**
+     * 排序
+     * @param $data array 排序数组,key是id,value是值
+     */
+    public static function order($data)
+    {
+        foreach ($data as $key=>$value) {
+            self::where('id', (int)$key)->update(['order'=>(int)$value]);
+        }
     }
 }

@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 21/11/2019 10:26:14
+ Date: 21/11/2019 18:00:11
 */
 
 SET NAMES utf8mb4;
@@ -69,7 +69,7 @@ CREATE TABLE `article_tags`  (
   `article_id` int(11) NOT NULL COMMENT '文章ID',
   `tag_id` int(11) NOT NULL COMMENT '标签ID',
   `created_at` timestamp(0) NULL DEFAULT NULL COMMENT '添加时间',
-  `deleted_at` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `updated_at` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章标题表' ROW_FORMAT = Dynamic;
 
@@ -91,7 +91,12 @@ CREATE TABLE `articles`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `title`(`title`) USING BTREE,
   INDEX `status`(`status`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of articles
+-- ----------------------------
+INSERT INTO `articles` VALUES (1, 'Hello, World!', NULL, NULL, NULL, '<p>这是一篇默认文章，仅作为展示，你可以任意编辑它！</p>', 1, '2019-11-21 17:59:49', '2019-11-21 17:59:49', NULL);
 
 -- ----------------------------
 -- Table structure for configs
@@ -130,7 +135,12 @@ CREATE TABLE `pages`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `title`(`title`) USING BTREE,
   INDEX `status`(`status`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '页面表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '页面表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pages
+-- ----------------------------
+INSERT INTO `pages` VALUES (1, '关于', NULL, NULL, '<p>该页面仅作为展示，你可以后台编辑它！</p>', 1, 100, '2019-11-21 17:58:21', '2019-11-21 17:58:21', NULL);
 
 -- ----------------------------
 -- Table structure for permissions
@@ -187,7 +197,7 @@ INSERT INTO `permissions` VALUES (28, 27, 'fa-caret-right', '标签添加', 'adm
 INSERT INTO `permissions` VALUES (29, 27, 'fa-caret-right', '标签查看', 'admin/tag/show', 2, 1, 100, NULL, '2019-11-21 09:30:57', '2019-11-21 09:34:54', NULL);
 INSERT INTO `permissions` VALUES (30, 27, 'fa-caret-right', '标签修改', 'admin/tag/update', 2, 1, 100, NULL, '2019-11-21 09:31:46', '2019-11-21 09:35:04', NULL);
 INSERT INTO `permissions` VALUES (31, 27, 'fa-caret-right', '标签删除', 'admin/tag/delete', 2, 1, 100, NULL, '2019-11-21 09:32:20', '2019-11-21 09:32:20', NULL);
-INSERT INTO `permissions` VALUES (32, 26, 'fa-caret-right', '文章管理', 'admin/article/index', 2, 1, 100, NULL, '2019-11-21 09:33:09', '2019-11-21 09:38:26', NULL);
+INSERT INTO `permissions` VALUES (32, 26, 'fa-caret-right', '文章管理', 'admin/article/index', 1, 1, 100, NULL, '2019-11-21 09:33:09', '2019-11-21 17:28:12', NULL);
 INSERT INTO `permissions` VALUES (33, 32, 'fa-caret-right', '文章添加', 'admin/article/create', 2, 1, 100, NULL, '2019-11-21 09:33:29', '2019-11-21 09:33:29', NULL);
 INSERT INTO `permissions` VALUES (34, 32, 'fa-caret-right', '文章查看', 'admin/article/show', 2, 1, 100, NULL, '2019-11-21 09:33:50', '2019-11-21 09:33:50', NULL);
 INSERT INTO `permissions` VALUES (35, 32, 'fa-caret-right', '文章修改', 'admin/article/update', 2, 1, 100, NULL, '2019-11-21 09:34:06', '2019-11-21 09:34:06', NULL);
@@ -242,7 +252,7 @@ CREATE TABLE `tags`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '名称',
   `order` int(11) NOT NULL DEFAULT 100 COMMENT '排序',
   `created_at` timestamp(0) NULL DEFAULT NULL COMMENT '添加时间',
-  `update_at` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `updated_at` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
   `deleted_at` timestamp(0) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `name`(`name`) USING BTREE
