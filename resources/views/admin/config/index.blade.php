@@ -15,10 +15,10 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        主页
+                        <a href="{{ url('admin/index') }}">主页</a>
                     </li>
-                    <li class="">系统管理</li>
-                    <li class="active">配置管理</li>
+                    <li class=""><a href="javascript:void(0)">系统管理</a></li>
+                    <li class="active"><a href="{{ url('admin/config/index') }}">配置管理</a></li>
                 </ul><!-- /.breadcrumb -->
             </div>
 

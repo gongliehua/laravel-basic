@@ -12,10 +12,10 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        主页
+                        <a href="{{ url('admin/index') }}">主页</a>
                     </li>
-                    <li class="">用户管理</li>
-                    <li class="active">权限管理</li>
+                    <li class=""><a href="javascript:void(0)">用户管理</a></li>
+                    <li class="active"><a href="{{ url('admin/permission/index') }}">权限管理</a></li>
                 </ul><!-- /.breadcrumb -->
             </div>
 
