@@ -56,4 +56,27 @@ Route::group(['namespace'=>'Admin', 'middleware'=>['admin']], function () {
 
     // 系统管理 配置设定
     Route::any('admin/config/setting', 'ConfigController@setting');
+
+    // 内容管理 标签管理
+    Route::any('admin/tag/index', 'TagController@index');
+    Route::any('admin/tag/create', 'TagController@create');
+    Route::any('admin/tag/show', 'TagController@show');
+    Route::any('admin/tag/update', 'TagController@update');
+    Route::any('admin/tag/delete', 'TagController@delete');
+    Route::any('admin/tag/order', 'TagController@order');
+
+    // 内容管理 文章管理
+    Route::any('admin/article/index', 'ArticleController@index');
+    Route::any('admin/article/create', 'ArticleController@create');
+    Route::any('admin/article/show', 'ArticleController@show');
+    Route::any('admin/article/update', 'ArticleController@update');
+    Route::any('admin/article/delete', 'ArticleController@delete');
+
+    // 内容管理 页面管理
+    Route::any('admin/page/index', 'PageController@index');
+    Route::any('admin/page/create', 'PageController@create');
+    Route::any('admin/page/show', 'PageController@show');
+    Route::any('admin/page/update', 'PageController@update');
+    Route::any('admin/page/delete', 'PageController@delete');
+    Route::any('admin/page/order', 'PageController@order');
 });
