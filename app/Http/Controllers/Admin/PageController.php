@@ -24,6 +24,27 @@ class PageController extends BaseController
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
                 'title'=>'required|string|between:1,255',
+                'alias'=>[
+                    function ($attribute,$value,$fail) use($request) {
+                        // 存在则判断
+                        if (strlen($value)) {
+                            $validAlias = Validator::make($request->all(), [
+                                'alias'=>[
+                                    'string',
+                                    'between:1,32',
+                                    Rule::unique('pages')->where(function($query) use($request) {
+                                        $query->whereNull('deleted_at');
+                                    })
+                                ],
+                            ], [], [
+                                'alias'=>'别名'
+                            ]);
+                            if ($validAlias->fails()) {
+                                return $fail($validAlias->errors()->first());
+                            }
+                        }
+                    },
+                ],
                 'keywords'=>[
                     function($attribute,$value,$fail){
                         if (!in_array($value,[null,''])) {
@@ -47,6 +68,7 @@ class PageController extends BaseController
                 'order'=>'required|integer',
             ], [], [
                 'title'=>'标题',
+                'alias'=>'别名',
                 'keywords'=>'关键词',
                 'description'=>'描述',
                 'content'=>'内容',
@@ -58,7 +80,7 @@ class PageController extends BaseController
             }
 
             // 获取数据
-            $data = $request->only(['title','keywords','description','content','status','order']);
+            $data = $request->only(['title','keywords','description','content','status','order','alias']);
 
             // 入库
             $page = Page::add($data);
@@ -95,6 +117,27 @@ class PageController extends BaseController
             $validator = Validator::make($request->all(), [
                 'id'=>'required|integer',
                 'title'=>'required|string|between:1,255',
+                'alias'=>[
+                    function ($attribute,$value,$fail) use($request) {
+                        // 存在则判断
+                        if (strlen($value)) {
+                            $validAlias = Validator::make($request->all(), [
+                                'alias'=>[
+                                    'string',
+                                    'between:1,32',
+                                    Rule::unique('pages')->where(function($query) use($request) {
+                                        $query->whereNull('deleted_at')->where('id','<>',$request->input('id'));
+                                    })
+                                ],
+                            ], [], [
+                                'alias'=>'别名'
+                            ]);
+                            if ($validAlias->fails()) {
+                                return $fail($validAlias->errors()->first());
+                            }
+                        }
+                    },
+                ],
                 'keywords'=>[
                     function($attribute,$value,$fail){
                         if (!in_array($value,[null,''])) {
@@ -119,6 +162,7 @@ class PageController extends BaseController
             ], [], [
                 'id'=>'ID',
                 'title'=>'标题',
+                'alias'=>'别名',
                 'keywords'=>'关键词',
                 'description'=>'描述',
                 'content'=>'内容',
@@ -130,7 +174,7 @@ class PageController extends BaseController
             }
 
             // 获取数据
-            $data = $request->only(['title','keywords','description','content','status','order']);
+            $data = $request->only(['title','keywords','description','content','status','order','alias']);
 
             // 入库
             $page = Page::edit($request->input('id'),$data);

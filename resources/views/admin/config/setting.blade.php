@@ -40,6 +40,7 @@
                                 <table id="simple-table" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th style="width: 100px;">变量名</th>
                                         <th style="width: 300px;">标题</th>
                                         <th>配置值</th>
@@ -51,6 +52,7 @@
                                         <form action="{{ url('admin/config/setting') }}" method="post">
                                             @foreach ($list as $key=>$value)
                                                 <tr>
+                                                    <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $value->variable }}</td>
                                                     <td>{{ $value->title }}</td>
                                                     @if ($value->type == \App\Models\Config::TYPE_TEXT)
@@ -102,12 +104,12 @@
                                             @endforeach
                                             <tr>
                                                 {{ csrf_field() }}
-                                                <td colspan="3"><input type="submit" value="修改"></td>
+                                                <td colspan="4"><input type="submit" value="修改"></td>
                                             </tr>
                                         </form>
                                     @else
                                         <tr>
-                                            <td colspan="3" align="center">暂无数据</td>
+                                            <td colspan="4" align="center">暂无数据</td>
                                         </tr>
                                     @endif
                                     </tbody>

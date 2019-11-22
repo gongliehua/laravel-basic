@@ -48,6 +48,13 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right"> 别名 </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="alias" value="{{ old('alias') ? old('alias') : '' }}" placeholder="别名" class="col-xs-10 col-sm-5" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right"> 作者 </label>
                                 <div class="col-sm-9">
                                     <input type="text" name="author" value="{{ old('author') ? old('author') : '' }}" placeholder="作者" class="col-xs-10 col-sm-5" />

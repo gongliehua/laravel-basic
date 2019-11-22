@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 21/11/2019 18:00:11
+ Date: 22/11/2019 17:56:52
 */
 
 SET NAMES utf8mb4;
@@ -80,6 +80,7 @@ DROP TABLE IF EXISTS `articles`;
 CREATE TABLE `articles`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
+  `alias` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '别名',
   `author` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '作者',
   `keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关键词',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
@@ -90,13 +91,14 @@ CREATE TABLE `articles`  (
   `deleted_at` timestamp(0) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `title`(`title`) USING BTREE,
-  INDEX `status`(`status`) USING BTREE
+  INDEX `status`(`status`) USING BTREE,
+  INDEX `alias`(`alias`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文章表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of articles
 -- ----------------------------
-INSERT INTO `articles` VALUES (1, 'Hello, World!', NULL, NULL, NULL, '<p>这是一篇默认文章，仅作为展示，你可以任意编辑它！</p>', 1, '2019-11-21 17:59:49', '2019-11-21 17:59:49', NULL);
+INSERT INTO `articles` VALUES (1, 'Hello, World!', NULL, NULL, NULL, NULL, '<p>这是一篇默认文章，仅作为展示，你可以任意编辑它！</p>', 1, '2019-11-21 17:59:49', '2019-11-21 17:59:49', NULL);
 
 -- ----------------------------
 -- Table structure for configs
@@ -115,7 +117,20 @@ CREATE TABLE `configs`  (
   `deleted_at` timestamp(0) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `variable`(`variable`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of configs
+-- ----------------------------
+INSERT INTO `configs` VALUES (1, '站点名称', 'name', 1, NULL, 'Strval', 100, '2019-11-22 17:08:09', '2019-11-22 17:21:45', NULL);
+INSERT INTO `configs` VALUES (2, '站点URL', 'site', 1, NULL, '/', 100, '2019-11-22 17:08:34', '2019-11-22 17:21:45', NULL);
+INSERT INTO `configs` VALUES (3, '站点关键词', 'keywords', 1, NULL, NULL, 100, '2019-11-22 17:08:51', '2019-11-22 17:21:45', NULL);
+INSERT INTO `configs` VALUES (4, '站点描述', 'description', 1, NULL, NULL, 100, '2019-11-22 17:09:03', '2019-11-22 17:21:46', NULL);
+INSERT INTO `configs` VALUES (5, '版权信息', 'copyright', 1, NULL, NULL, 100, '2019-11-22 17:09:26', '2019-11-22 17:21:46', NULL);
+INSERT INTO `configs` VALUES (6, '首页每页显示文章条数', 'limitArticle', 5, '5,10,15,20', '15', 100, '2019-11-22 17:17:34', '2019-11-22 17:21:46', NULL);
+INSERT INTO `configs` VALUES (7, '首页归档显示文章条数', 'limitArchive', 5, '5,10,15,20', '15', 100, '2019-11-22 17:18:21', '2019-11-22 17:21:46', NULL);
+INSERT INTO `configs` VALUES (8, '前台文章是否使用别名', 'aliasArticle', 5, '是,否', '是', 100, '2019-11-22 17:18:59', '2019-11-22 17:21:46', NULL);
+INSERT INTO `configs` VALUES (9, '前台页面是否使用别名', 'aliasPage', 5, '是,否', '是', 100, '2019-11-22 17:19:45', '2019-11-22 17:21:46', NULL);
 
 -- ----------------------------
 -- Table structure for pages
@@ -124,6 +139,7 @@ DROP TABLE IF EXISTS `pages`;
 CREATE TABLE `pages`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
+  `alias` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '别名',
   `keywords` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关键词',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '内容',
@@ -134,13 +150,14 @@ CREATE TABLE `pages`  (
   `deleted_at` timestamp(0) NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `title`(`title`) USING BTREE,
-  INDEX `status`(`status`) USING BTREE
+  INDEX `status`(`status`) USING BTREE,
+  INDEX `alias`(`alias`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '页面表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pages
 -- ----------------------------
-INSERT INTO `pages` VALUES (1, '关于', NULL, NULL, '<p>该页面仅作为展示，你可以后台编辑它！</p>', 1, 100, '2019-11-21 17:58:21', '2019-11-21 17:58:21', NULL);
+INSERT INTO `pages` VALUES (1, '关于', NULL, NULL, NULL, '<p>该页面仅作为展示，你可以后台编辑它！</p>', 1, 100, '2019-11-21 17:58:21', '2019-11-21 17:58:21', NULL);
 
 -- ----------------------------
 -- Table structure for permissions

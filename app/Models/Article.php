@@ -63,6 +63,7 @@ class Article extends Model
             // 信息入库
             $article = new self();
             $article->title = $data['title'];
+            $article->alias = @$data['alias'];
             $article->author = @$data['author'];
             $article->keywords = @$data['keywords'];
             $article->description = @$data['description'];
@@ -162,5 +163,34 @@ class Article extends Model
             return $e->getMessage();
         }
         return true;
+    }
+
+    /**
+     * 前台 文章列表
+     * 搜索字段：title string 非必传 标题
+     * @param $request object 请求对象
+     * @return mixed object 分页数据对象
+     */
+    public static function indexSearch($request)
+    {
+        $map = [];
+        if ($request->input('title')) {
+            $map[] = ['title','like','%'.$request->input('title').'%'];
+        }
+        $limit = \App\Libraries\Config::getInstance()->get('limitArticle',15);
+        $list = self::select(['id', 'title', 'content', 'created_at'])->where($map)->where('status',self::STATUS_SHOW)->orderBy('id','desc')->simplePaginate($limit);
+        return $list;
+    }
+
+    /**
+     * 前台 归档
+     * @param $request object 请求对象
+     * @return mixed object 分页数据对象
+     */
+    public static function indexArchives($request)
+    {
+        $limit = \App\Libraries\Config::getInstance()->get('limitArchive', 15);
+        $list = self::select(['id', 'title', 'created_at'])->where('status',self::STATUS_SHOW)->orderBy('id','desc')->simplePaginate($limit);
+        return $list;
     }
 }

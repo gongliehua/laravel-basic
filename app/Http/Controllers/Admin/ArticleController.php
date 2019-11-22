@@ -26,6 +26,27 @@ class ArticleController extends BaseController
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
                 'title'=>'required|string|between:1,255',
+                'alias'=>[
+                    function ($attribute,$value,$fail) use($request) {
+                        // 存在则判断
+                        if (strlen($value)) {
+                            $validAlias = Validator::make($request->all(), [
+                                'alias'=>[
+                                    'string',
+                                    'between:1,32',
+                                    Rule::unique('articles')->where(function($query){
+                                        $query->whereNull('deleted_at');
+                                    })
+                                ],
+                            ], [], [
+                                'alias'=>'别名'
+                            ]);
+                            if ($validAlias->fails()) {
+                                return $fail($validAlias->errors()->first());
+                            }
+                        }
+                    },
+                ],
                 'author'=>[
                     function($attribute,$value,$fail){
                         if (!in_array($value,[null,''])) {
@@ -57,6 +78,7 @@ class ArticleController extends BaseController
                 'status'=>'required|integer',
             ], [], [
                 'title'=>'标题',
+                'alias'=>'别名',
                 'author'=>'作者',
                 'keywords'=>'关键词',
                 'description'=>'描述',
@@ -68,7 +90,7 @@ class ArticleController extends BaseController
             }
 
             // 获取数据
-            $data = $request->only(['title','keywords','description','content','status','author','tag_id']);
+            $data = $request->only(['title','keywords','description','content','status','author','tag_id','alias']);
 
             // 入库
             $article = Article::add($data);
@@ -109,6 +131,27 @@ class ArticleController extends BaseController
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
                 'id'=>'required|integer',
+                'alias'=>[
+                    function ($attribute,$value,$fail) use($request) {
+                        // 存在则判断
+                        if (strlen($value)) {
+                            $validAlias = Validator::make($request->all(), [
+                                'alias'=>[
+                                    'string',
+                                    'between:1,32',
+                                    Rule::unique('articles')->where(function($query) use($request) {
+                                        $query->whereNull('deleted_at')->where('id','<>',$request->input('id'));
+                                    })
+                                ],
+                            ], [], [
+                                'alias'=>'别名'
+                            ]);
+                            if ($validAlias->fails()) {
+                                return $fail($validAlias->errors()->first());
+                            }
+                        }
+                    },
+                ],
                 'title'=>'required|string|between:1,255',
                 'author'=>[
                     function($attribute,$value,$fail){
@@ -143,6 +186,7 @@ class ArticleController extends BaseController
                 'id'=>'ID',
                 'author'=>'作者',
                 'title'=>'标题',
+                'alias'=>'别名',
                 'keywords'=>'关键词',
                 'description'=>'描述',
                 'content'=>'内容',
@@ -153,7 +197,7 @@ class ArticleController extends BaseController
             }
 
             // 获取数据
-            $data = $request->only(['title','keywords','description','content','status','author']);
+            $data = $request->only(['title','keywords','description','content','status','author','alias']);
 
             // 入库
             $article = Article::edit($request->input('id'),$data,$request->input('tag_id'));

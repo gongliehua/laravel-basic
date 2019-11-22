@@ -53,6 +53,7 @@ class Page extends Model
     {
         $page = new self();
         $page->title = $data['title'];
+        $page->alias = @$data['alias'];
         $page->keywords = @$data['keywords'];
         $page->description = @$data['description'];
         $page->content = $data['content'];

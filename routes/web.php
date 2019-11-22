@@ -11,8 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// 前台路由
+Route::group(['namespace'=>'Index'], function () {
+    Route::get('/', 'IndexController@index');
+    Route::get('archives', 'IndexController@archives');
+    Route::get('archives/{id}.html', 'IndexController@archivesDetail');
+    Route::get('{id}.html', 'IndexController@pageDetail');
 });
 
 // 后台路由

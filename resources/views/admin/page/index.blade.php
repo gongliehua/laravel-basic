@@ -43,6 +43,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>标题</th>
+                                        <th>别名</th>
                                         <th>内容</th>
                                         <th>状态</th>
                                         <th>排序</th>
@@ -59,6 +60,7 @@
                                                 <tr>
                                                     <td>{{ $value->id }}</td>
                                                     <td>{{ str_limit(strip_tags($value->title),30) }}</td>
+                                                    <td>@if (strlen($value->alias)) {{ $value->alias }} @else 未设置 @endif</td>
                                                     <td>{{ str_limit(strip_tags($value->content),30) }}</td>
                                                     <td>{{ $value->status_text }}</td>
                                                     <td><input type="text" name="order[{{ $value->id }}]" value="{{ $value->order }}" style="width: 50px;text-align: center"></td>
@@ -73,12 +75,12 @@
                                             @endforeach
                                             <tr>
                                                 {{ csrf_field() }}
-                                                <td colspan="8"><input type="submit" value="排序"></td>
+                                                <td colspan="9"><input type="submit" value="排序"></td>
                                             </tr>
                                         </form>
                                     @else
                                         <tr>
-                                            <td colspan="8" align="center">暂无数据</td>
+                                            <td colspan="9" align="center">暂无数据</td>
                                         </tr>
                                     @endif
                                     </tbody>
