@@ -46,14 +46,6 @@
     <![endif]-->
 
     @yield('head')
-
-    <script type="text/javascript">
-        // 固定头部,导航栏
-        if (localStorage.getItem('ace_state_id-navbar') == null) {
-            localStorage.setItem('ace_state_id-navbar', '{"class":{"navbar-fixed-top":1}}');
-            localStorage.setItem('ace_state_id-sidebar', '{"class":{"sidebar-fixed":1}}');
-        }
-    </script>
 </head>
 
 <body class="no-skin">
@@ -196,12 +188,14 @@
 
 <!--[if !IE]> -->
 <script src="{{ asset('assets/js/jquery-2.1.4.min.js') }}"></script>
-
 <!-- <![endif]-->
 
 <!--[if IE]>
 <script src="{{ asset('assets/js/jquery-1.11.3.min.js') }}"></script>
 <![endif]-->
+
+<!-- layout,nav handle -->
+<script src="{{ asset('assets/js/menu.js') }}"></script>
 
 <!-- toastr -->
 <script src="{{ asset('assets/plugins/toastr-2.1.1/build/toastr.min.js') }}"></script>
@@ -218,13 +212,6 @@
 
     // 后台模板自带的,似乎是做兼容处理
     if('ontouchstart' in document.documentElement) document.write("<script src='{{ asset('assets/js/jquery.mobile.custom.min.js') }}'>"+"<"+"/script>");
-
-    // 展开导航栏
-    $(function(){
-        var pathname = location.pathname;
-        $(".nav-list a[href='"+pathname+"']").parent().addClass('active');
-        $(".nav-list a[href='"+pathname+"']").parent().parents('li').addClass('active open');
-    });
 </script>
 
 @yield('bottom')
