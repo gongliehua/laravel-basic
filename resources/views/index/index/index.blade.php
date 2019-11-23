@@ -14,18 +14,18 @@
                             <h1 class="post-title">
                                 @if (\App\Libraries\Config::getInstance()->get('aliasArticle','否') == '是')
                                     @if (strlen($value->alias))
-                                        <a class="post-link" href="/archives/{{ $value->alias }}.html">{{ str_limit($value->title,20) }}</a>
+                                        <a class="post-link" href="/archives/{{ $value->alias }}.html">{{ $value->title }}</a>
                                     @else
-                                        <a class="post-link" href="/archives/{{ $value->id }}.html">{{ str_limit($value->title,20) }}</a>
+                                        <a class="post-link" href="/archives/{{ $value->id }}.html">{{ $value->title }}</a>
                                     @endif
                                 @else
-                                    <a class="post-link" href="/archives/{{ $value->id }}.html">{{ str_limit($value->title,20) }}</a>
+                                    <a class="post-link" href="/archives/{{ $value->id }}.html">{{ $value->title }}</a>
                                 @endif
                             </h1>
                             <time class="post-time">{{ date('M d Y',strtotime($value->created_at)) }}</time>
                         </header>
                         <div class="post-excerpt post-content">
-                            <p>{!! str_limit(strip_tags($value->content),120) !!}</p>
+                            <p>{!! str_limit(strip_tags($value->content),255) !!}</p>
                         </div>
                     </article>
                 @endforeach

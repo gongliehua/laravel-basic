@@ -29,12 +29,12 @@
                             <span class="archive-post-title">
                                 @if (\App\Libraries\Config::getInstance()->get('aliasArticle','是') == '是')
                                     @if (strlen($value->alias))
-                                        <a href="/archives/{{ $value->alias }}.html" class="archive-post-link">{{ str_limit($value->title,20) }}</a>
+                                        <a href="/archives/{{ $value->alias }}.html" class="archive-post-link">{{ $value->title }}</a>
                                     @else
-                                        <a href="/archives/{{ $value->id }}.html" class="archive-post-link">{{ str_limit($value->title,20) }}</a>
+                                        <a href="/archives/{{ $value->id }}.html" class="archive-post-link">{{ $value->title }}</a>
                                     @endif
                                 @else
-                                    <a href="/archives/{{ $value->id }}.html" class="archive-post-link">{{ str_limit($value->title,20) }}</a>
+                                    <a href="/archives/{{ $value->id }}.html" class="archive-post-link">{{ $value->title }}</a>
                                 @endif
                             </span>
                         </div>
