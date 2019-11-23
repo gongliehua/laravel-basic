@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-11-23 18:15:40
+Date: 2019-11-23 18:21:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -124,16 +124,16 @@ CREATE TABLE `configs` (
 -- ----------------------------
 -- Records of configs
 -- ----------------------------
-INSERT INTO `configs` VALUES ('1', '站点名称', 'name', '1', null, 'Strval', '100', '2019-11-22 17:08:09', '2019-11-22 17:21:45', null);
-INSERT INTO `configs` VALUES ('2', '站点URL', 'site', '1', null, '/', '100', '2019-11-22 17:08:34', '2019-11-22 17:21:45', null);
-INSERT INTO `configs` VALUES ('3', '站点关键词', 'keywords', '1', null, null, '100', '2019-11-22 17:08:51', '2019-11-22 17:21:45', null);
-INSERT INTO `configs` VALUES ('4', '站点描述', 'description', '1', null, null, '100', '2019-11-22 17:09:03', '2019-11-22 17:21:46', null);
-INSERT INTO `configs` VALUES ('5', '版权信息', 'copyright', '1', null, null, '100', '2019-11-22 17:09:26', '2019-11-22 17:21:46', null);
-INSERT INTO `configs` VALUES ('6', '首页每页显示文章条数', 'limitArticle', '5', '5,10,15,20', '15', '100', '2019-11-22 17:17:34', '2019-11-22 17:21:46', null);
-INSERT INTO `configs` VALUES ('7', '首页归档显示文章条数', 'limitArchive', '5', '5,10,15,20', '15', '100', '2019-11-22 17:18:21', '2019-11-22 17:21:46', null);
-INSERT INTO `configs` VALUES ('8', '前台文章是否使用别名', 'aliasArticle', '5', '是,否', '是', '100', '2019-11-22 17:18:59', '2019-11-22 17:21:46', null);
-INSERT INTO `configs` VALUES ('9', '前台页面是否使用别名', 'aliasPage', '5', '是,否', '是', '100', '2019-11-22 17:19:45', '2019-11-22 17:21:46', null);
-INSERT INTO `configs` VALUES ('10', '前台归档页标题', 'archives', '1', null, 'Archives', '100', '2019-11-23 18:15:27', '2019-11-23 18:15:27', null);
+INSERT INTO `configs` VALUES ('1', '站点名称', 'name', '1', null, 'Strval', '100', '2019-11-22 17:08:09', '2019-11-23 18:20:12', null);
+INSERT INTO `configs` VALUES ('2', '站点URL', 'site', '1', null, '/', '100', '2019-11-22 17:08:34', '2019-11-23 18:20:12', null);
+INSERT INTO `configs` VALUES ('3', '站点关键词', 'keywords', '1', null, null, '100', '2019-11-22 17:08:51', '2019-11-23 18:20:12', null);
+INSERT INTO `configs` VALUES ('4', '站点描述', 'description', '1', null, null, '100', '2019-11-22 17:09:03', '2019-11-23 18:20:12', null);
+INSERT INTO `configs` VALUES ('5', '版权信息', 'copyright', '1', null, null, '100', '2019-11-22 17:09:26', '2019-11-23 18:20:12', null);
+INSERT INTO `configs` VALUES ('6', '首页每页显示文章条数', 'limitArticle', '5', '5,10,15,20', '15', '100', '2019-11-22 17:17:34', '2019-11-23 18:20:12', null);
+INSERT INTO `configs` VALUES ('7', '首页归档显示文章条数', 'limitArchive', '5', '5,10,15,20', '15', '100', '2019-11-22 17:18:21', '2019-11-23 18:20:12', null);
+INSERT INTO `configs` VALUES ('8', '前台文章是否使用别名', 'aliasArticle', '5', '是,否', '否', '100', '2019-11-22 17:18:59', '2019-11-23 18:20:12', null);
+INSERT INTO `configs` VALUES ('9', '前台页面是否使用别名', 'aliasPage', '5', '是,否', '是', '100', '2019-11-22 17:19:45', '2019-11-23 18:20:12', null);
+INSERT INTO `configs` VALUES ('10', '前台归档页标题', 'archives', '1', null, 'Archives', '100', '2019-11-23 18:15:27', '2019-11-23 18:20:12', null);
 
 -- ----------------------------
 -- Table structure for pages
@@ -160,7 +160,7 @@ CREATE TABLE `pages` (
 -- ----------------------------
 -- Records of pages
 -- ----------------------------
-INSERT INTO `pages` VALUES ('1', '关于', null, null, null, '<p>该页面仅作为展示，你可以后台编辑它！</p>', '1', '100', '2019-11-21 17:58:21', '2019-11-21 17:58:21', null);
+INSERT INTO `pages` VALUES ('1', '关于', null, null, null, '<p>该页面仅作为展示，你可以任意编辑它！</p>', '2', '100', '2019-11-21 17:58:21', '2019-11-23 18:20:50', null);
 
 -- ----------------------------
 -- Table structure for permissions
