@@ -21,6 +21,7 @@ class Config
      * limitArchive 前台归档列表每页多少条数据
      * aliasArticle 文章是否使用别名
      * aliasPage    页面是否使用别名
+     * archives     归档页标题
      */
     private $data;
 

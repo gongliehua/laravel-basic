@@ -178,7 +178,7 @@ class Article extends Model
             $map[] = ['title','like','%'.$request->input('title').'%'];
         }
         $limit = \App\Libraries\Config::getInstance()->get('limitArticle',15);
-        $list = self::select(['id', 'title', 'content', 'created_at'])->where($map)->where('status',self::STATUS_SHOW)->orderBy('id','desc')->simplePaginate($limit);
+        $list = self::select(['id', 'title', 'alias', 'content', 'created_at'])->where($map)->where('status',self::STATUS_SHOW)->orderBy('id','desc')->simplePaginate($limit);
         return $list;
     }
 
@@ -190,7 +190,30 @@ class Article extends Model
     public static function indexArchives($request)
     {
         $limit = \App\Libraries\Config::getInstance()->get('limitArchive', 15);
-        $list = self::select(['id', 'title', 'created_at'])->where('status',self::STATUS_SHOW)->orderBy('id','desc')->simplePaginate($limit);
+        $list = self::select(['id', 'title', 'alias', 'created_at'])->where('status',self::STATUS_SHOW)->orderBy('id','desc')->simplePaginate($limit);
         return $list;
+    }
+
+    /**
+     * 前台使用
+     * @param $id
+     * @return array|bool
+     */
+    public static function frontendDetail($id)
+    {
+        // id可能是ID,也有可能是别名
+        if (is_numeric($id) && strpos($id,'.') === false) {
+            $info = self::with(['tag'])->find($id);
+        } else {
+            $info = self::with(['tag'])->where('alias',$id)->first();
+        }
+        // 如果存在则继续查询 上/下 一篇文章
+        if ($info) {
+            $prev = self::select('id','title','alias')->where('id','<',$info->id)->where('status',self::STATUS_SHOW)->orderBy('id','desc')->first();
+            $next = self::select('id','title','alias')->where('id','>',$info->id)->where('status',self::STATUS_SHOW)->orderBy('id','asc')->first();
+            return ['info'=>$info,'prev'=>$prev,'next'=>$next];
+        } else {
+            return false;
+        }
     }
 }

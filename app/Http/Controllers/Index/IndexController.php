@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Index;
 
 use App\Libraries\Config;
 use App\Models\Article;
+use App\Models\Page;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +20,7 @@ class IndexController extends BaseController
         // 所有标签
         $tags = Tag::withCount('article')->orderBy('order', 'asc')->get();
 
-        //return view('index.index.index', compact('articles', 'tags'));
-        return 'index';
+        return view('index.index.index', compact('articles', 'tags'));
     }
 
     // 首页 归档导航
@@ -28,21 +28,26 @@ class IndexController extends BaseController
     {
         $list = Article::indexArchives($request);
 
-        //return view('index.index.archives', compact('list'));
-        return 'archives';
+        return view('index.index.archives', compact('list'));
     }
 
     // 首页 文章详情
-    public function archivesDetail(Request $request)
+    public function archivesDetail(Request $request,$id)
     {
-        //
-        return 'archive detail';
+        $info = Article::frontendDetail($id);
+        if ($info === false) {
+            abort(404);
+        }
+        return view('index.index.archives-detail',compact('info'));
     }
 
     // 首页 页面详情
-    public function pageDetail(Request $request)
+    public function pageDetail(Request $request,$id)
     {
-        //
-        return 'page detail';
+        $info = Page::frontendDetail($id);
+        if ($info === false) {
+            abort(404);
+        }
+        return view('index.index.page-detail',compact('info'));
     }
 }

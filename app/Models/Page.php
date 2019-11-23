@@ -104,4 +104,34 @@ class Page extends Model
             self::where('id', (int)$key)->update(['order'=>(int)$value]);
         }
     }
+
+    /**
+     * 供前台使用
+     * @return mixed
+     */
+    public static function frontendRender()
+    {
+        $list = self::select('id','alias','title')->where('status', self::STATUS_SHOW)->orderBy('order','asc')->get();
+        return $list;
+    }
+
+    /**
+     * 前台使用
+     * @param $id
+     * @return array|bool
+     */
+    public static function frontendDetail($id)
+    {
+        // id可能是ID,也有可能是别名
+        if (is_numeric($id) && strpos($id,'.') === false) {
+            $info = self::find($id);
+        } else {
+            $info = self::where('alias',$id)->first();
+        }
+        if ($info) {
+            return $info;
+        } else {
+            return false;
+        }
+    }
 }
